@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>KAMPAGNONS — Gefährten für dein KMU</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-Thin.otf') format('opentype'); font-weight:100; font-style:normal; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-ThinItalic.otf') format('opentype'); font-weight:100; font-style:italic; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-Light.otf') format('opentype'); font-weight:300; font-style:normal; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-LightItalic.otf') format('opentype'); font-weight:300; font-style:italic; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-Regular.otf') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-RegularItalic.otf') format('opentype'); font-weight:400; font-style:italic; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-Medium.otf') format('opentype'); font-weight:500; font-style:normal; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-MediumItalic.otf') format('opentype'); font-weight:500; font-style:italic; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-Semibold.otf') format('opentype'); font-weight:600; font-style:normal; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-SemiboldItalic.otf') format('opentype'); font-weight:600; font-style:italic; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-Bold.otf') format('opentype'); font-weight:700; font-style:normal; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-BoldItalic.otf') format('opentype'); font-weight:700; font-style:italic; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-Black.otf') format('opentype'); font-weight:900; font-style:normal; font-display:swap; }
+  @font-face { font-family:"Calibre"; src:url('assets/Calibre_family 2/Calibre-BlackItalic.otf') format('opentype'); font-weight:900; font-style:italic; font-display:swap; }
+
+  :root {
+    --ink: #0A0A0A;
+    --paper: #F5F5F2;
+    --lime: #D4E84A;
+    --violet: #E8E0F5;
+    --peach: #F8E5D5;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    overflow-x: hidden;
+  }
+
+  .display {
+    font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+  }
+  .wordmark {
+    font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+  .body-text {
+    font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    color: #0A0A0A;
+  }
+  .body-light {
+    font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    line-height: 1.45;
+    letter-spacing: 0;
+    color: #1a1a1a;
+  }
+  .mono-label {
+    font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: #0A0A0A;
+  }
+
+  /* Lime highlighter — the consistent visual motif */
+  .hl {
+    position: relative;
+    display: inline-block;
+    z-index: 0;
+    white-space: nowrap;
+  }
+  .hl::before {
+    content: "";
+    position: absolute;
+    left: -0.06em;
+    right: -0.06em;
+    bottom: 0.04em;
+    height: 0.34em;
+    background: var(--lime);
+    z-index: -1;
+    border-radius: 2px;
+    transform-origin: left;
+    transform: scaleX(0) translateZ(0);
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    backface-visibility: hidden;
+  }
+  .reveal.in .hl::before {
+    transform: scaleX(1) translateZ(0);
+    transition-delay: 0.5s;
+  }
+  @keyframes hl-draw {
+    to { transform: scaleX(1) translateZ(0); }
+  }
+  .hero-reveal .hl::before {
+    animation: hl-draw 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 1.1s;
+  }
+  .hl.thin::before {
+    height: 0.18em;
+    bottom: 0.06em;
+  }
+  /* For inline body highlights */
+  .hl-body::before {
+    height: 0.5em;
+    bottom: 0;
+  }
+
+  /* Underline link hover */
+  .underline-link {
+    position: relative;
+    display: inline-block;
+    transition: color .25s ease;
+  }
+  .underline-link::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transition: all .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .underline-link:hover::after {
+    background: var(--lime);
+    height: 10px;
+    bottom: -2px;
+    opacity: 1;
+    z-index: -1;
+  }
+
+  /* Atmospheric glow blobs (radiance) */
+  .glow {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    z-index: 0;
+    transform-origin: center;
+    filter: blur(60px);
+  }
+  /* On mobile, reduce blur and hide secondary auroras to save GPU */
+  @media (max-width: 767px) {
+    .glow { filter: blur(40px); }
+    .aurora-mobile-hide { display: none !important; }
+  }
+  /* More noticeable, fluid aurora drift */
+  @keyframes aurora-drift-a {
+    0%   { transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg); }
+    25%  { transform: translate3d(25%, -15%, 0) scale(1.15) rotate(8deg); }
+    50%  { transform: translate3d(-15%, 25%, 0) scale(0.85) rotate(-6deg); }
+    75%  { transform: translate3d(15%, -12%, 0) scale(1.12) rotate(4deg); }
+    100% { transform: translate3d(0%, 0%, 0) scale(1) rotate(0deg); }
+  }
+  @keyframes aurora-drift-b {
+    0%   { transform: translate3d(0%, 0%, 0) scale(1.05) rotate(0deg); }
+    25%  { transform: translate3d(-25%, 15%, 0) scale(0.8) rotate(-8deg); }
+    50%  { transform: translate3d(18%, 25%, 0) scale(1.2) rotate(6deg); }
+    75%  { transform: translate3d(-12%, -15%, 0) scale(0.88) rotate(-4deg); }
+    100% { transform: translate3d(0%, 0%, 0) scale(1.05) rotate(0deg); }
+  }
+  @keyframes aurora-drift-c {
+    0%   { transform: translate3d(0%, 0%, 0) scale(0.95); }
+    33%  { transform: translate3d(25%, 15%, 0) scale(1.25); }
+    66%  { transform: translate3d(-15%, -22%, 0) scale(0.8); }
+    100% { transform: translate3d(0%, 0%, 0) scale(0.95); }
+  }
+  @keyframes aurora-breathe {
+    0%, 100% { opacity: var(--g-op, 0.7); }
+    50%      { opacity: calc(var(--g-op, 0.7) * 1.5); }
+  }
+  .glow-a { animation: aurora-drift-a 14s ease-in-out infinite, aurora-breathe 10s ease-in-out infinite; }
+  .glow-b { animation: aurora-drift-b 16s ease-in-out infinite, aurora-breathe 12s ease-in-out infinite; }
+  .glow-c { animation: aurora-drift-c 18s ease-in-out infinite, aurora-breathe 14s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .glow-a, .glow-b, .glow-c { animation: none !important; }
+  }
+  /* Disable Aurora animations on mobile for smooth scrolling */
+  @media (max-width: 767px) {
+    .glow-a, .glow-b, .glow-c { animation: none !important; }
+    /* Lazy-render offscreen sections */
+    section[id] {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 800px;
+    }
+    section#top {
+      content-visibility: visible;
+    }
+  }
+
+  /* Fade-in on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px) translateZ(0);
+    transition: opacity 1.4s cubic-bezier(.16,.87,.35,1), transform 1.4s cubic-bezier(.16,.87,.35,1);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateZ(0);
+    will-change: auto;
+  }
+  
+  @keyframes load-reveal {
+    0% { opacity: 0; transform: translateY(28px) translateZ(0); }
+    100% { opacity: 1; transform: translateZ(0); }
+  }
+  .hero-reveal {
+    opacity: 0;
+    animation: load-reveal 1.4s cubic-bezier(.16,.87,.35,1) forwards;
+    animation-delay: 0.15s;
+    backface-visibility: hidden;
+  }
+  /* Stagger delays for child reveals within same section */
+  .reveal.delay-1 { transition-delay: 0.15s; }
+  .reveal.delay-2 { transition-delay: 0.3s; }
+  .reveal.delay-3 { transition-delay: 0.45s; }
+
+  /* Nav glassmorphism */
+  .nav-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(245, 245, 242, 0.72);
+    backdrop-filter: blur(16px) saturate(1.6);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6);
+    border-bottom: 1px solid rgba(10, 10, 10, 0.06);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+  .nav-scrolled .nav-bg {
+    opacity: 1;
+  }
+
+  /* Headline scales */
+  .h-huge { font-size: clamp(3rem, 9.5vw, 8rem); }
+  .h-big  { font-size: clamp(2.75rem, 8vw, 7rem); }
+  .h-mid  { font-size: clamp(2.2rem, 5.8vw, 5.2rem); }
+
+  ::selection { background: var(--lime); color: var(--ink); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #d8d8d2; border-radius: 999px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* Scroll offset for sticky nav — prevents headlines from hiding under the bar */
+  section[id] { scroll-margin-top: 80px; }
+
+  /* Mobile overlay nav links — readable at large size, tighter tracking */
+  .mobile-nav-link {
+    font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 22px;
+    color: #111;
+    display: inline-block;
+  }
+
+  /* Arrow bullet */
+  .arrow::before {
+    content: "→";
+    display: inline-block;
+    margin-right: 0.6em;
+    color: var(--ink);
+  }
+  /* Embedded circles animation */
+  .embed-scene {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (min-width: 768px) {
+    .embed-scene { height: 450px; }
+  }
+  .embed-shape {
+    position: absolute;
+    width: 260px; height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+  }
+  @media (min-width: 768px) {
+    .embed-shape { width: 400px; height: 400px; }
+  }
+  .embed-shape-purple {
+    transform: translateX(-55vw);
+    opacity: 0;
+    transition: transform 2.6s cubic-bezier(.16,.87,.35,1), opacity 1s ease;
+  }
+  .embed-shape-lime {
+    transform: translateX(55vw);
+    opacity: 0;
+    transition: transform 2.6s cubic-bezier(.16,.87,.35,1) 1.4s, opacity 1s ease 1.4s;
+  }
+  .embed-scene.merged .embed-shape-purple,
+  .embed-scene.merged .embed-shape-lime {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  .embed-labels-container {
+    position: absolute;
+    width: 260px; height: 260px;
+    pointer-events: none;
+    z-index: 20;
+  }
+  @media (min-width: 768px) {
+    .embed-labels-container { width: 400px; height: 400px; }
+  }
+  .embed-label {
+    position: absolute;
+    font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 13px;
+    color: var(--ink);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease 3.8s, transform 0.8s ease 3.8s;
+  }
+  @media (min-width: 768px) {
+    .embed-label { font-size: 20px; }
+  }
+  .embed-scene.merged .embed-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .kp-label {
+    bottom: 8%;
+    right: -15%;
+  }
+  @media (min-width: 768px) {
+    .kp-label { bottom: 20%; right: -25%; }
+  }
+  .kmu-label {
+    top: 10%;
+    left: 8%;
+  }
+  @media (min-width: 768px) {
+    .kmu-label { top: 20%; left: 10%; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" data-presets="env,react">
+
+const { useEffect } = React;
+
+/* Constant outside component to avoid recreation on every render */
+const DRIFT_CYCLE = ["a", "b", "c"];
+
+/* ----------  SIGNET (the logo mark — only used for the main brand lockup)  ---------- */
+function Signet({ size = 96, className = "", style = {} }) {
+  return (
+    <img
+      src="assets/sketch_v3.svg"
+      className={className}
+      style={{ ...style, height: size, width: "auto" }}
+      alt="Kampagnons Signet"
+    />
+  );
+}
+
+/* ----------  REVEAL on scroll  ---------- */
+function useReveal() {
+  useEffect(() => {
+    const els = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
+/* ----------  Atmospheric radiant background  ---------- */
+/* Layered radial-gradients to give a soft, glowing aurora feel — never dominant */
+function Aurora({ variant = "violet", drift, className = "", style = {} }) {
+  const resolvedDrift = React.useMemo(
+    () => drift || DRIFT_CYCLE[Math.floor(Math.random() * 3)],
+    [drift]
+  );
+  const paletteByVariant = {
+    violet: {
+      a: "rgba(196,176,232,0.85)",
+      b: "rgba(220,205,238,0.7)",
+      c: "rgba(232,224,245,0.55)"
+    },
+    peach: {
+      a: "rgba(247,210,180,0.85)",
+      b: "rgba(250,225,200,0.6)",
+      c: "rgba(255,236,220,0.5)"
+    },
+    lime: {
+      a: "rgba(212,232,74,0.55)",
+      b: "rgba(220,238,120,0.4)",
+      c: "rgba(232,245,170,0.3)"
+    },
+    mix: {
+      a: "rgba(196,176,232,0.7)",
+      b: "rgba(247,210,180,0.55)",
+      c: "rgba(212,232,74,0.35)"
+    }
+  };
+  const p = paletteByVariant[variant] || paletteByVariant.violet;
+  const { opacity = 0.7, ...restStyle } = style;
+  return (
+    <div
+      className={"glow glow-" + resolvedDrift + " " + className}
+      aria-hidden="true"
+      style={{
+        ...restStyle,
+        "--g-op": opacity,
+        opacity,
+        background: `
+          radial-gradient(circle at 30% 35%, ${p.a} 0%, transparent 55%),
+          radial-gradient(circle at 70% 60%, ${p.b} 0%, transparent 60%),
+          radial-gradient(circle at 50% 80%, ${p.c} 0%, transparent 70%)
+        `
+      }} />);
+
+
+}
+
+/* ----------  NAV (glassmorphism on scroll)  ---------- */
+function Nav() {
+  const [scrolled, setScrolled] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
+  
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  
+  return (
+    <>
+    <header className={"fixed top-0 left-0 right-0 z-50 transition-all duration-300" + (scrolled || isOpen ? " nav-scrolled" : "")}>
+      <div className="nav-bg" />
+      <div className="relative flex items-center justify-between px-6 md:px-14 py-3 md:py-4 max-w-[1500px] mx-auto w-full">
+        <a href="#top" className="flex items-center gap-3 md:gap-4 group pointer-events-auto" onClick={() => setIsOpen(false)}>
+          <Signet size={36} className="md:hidden" />
+          <Signet size={44} className="hidden md:block" />
+        </a>
+        
+        {/* Desktop Nav */}
+        <nav className="pointer-events-auto hidden md:flex items-center gap-9 mono-label">
+          <a href="#warum" className="underline-link">Warum</a>
+          <a href="#wie" className="underline-link">Wie</a>
+          <a href="#was" className="underline-link">Was</a>
+          <a href="#wen" className="underline-link">Für wen</a>
+          <a href="#wer" className="underline-link">Wer</a>
+          <a href="#jetzt" className="underline-link">Was jetzt</a>
+        </nav>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          className="pointer-events-auto md:hidden p-2 flex flex-col justify-center items-center w-10 h-10 gap-1.5 z-50 relative"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Menü schliessen" : "Menü öffnen"}
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+        >
+          <span className={`block w-6 h-[2px] bg-[#111] transition-transform duration-300 origin-center ${isOpen ? "rotate-45 translate-y-[8px]" : ""}`} />
+          <span className={`block w-6 h-[2px] bg-[#111] transition-opacity duration-300 ${isOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-6 h-[2px] bg-[#111] transition-transform duration-300 origin-center ${isOpen ? "-rotate-45 -translate-y-[8px]" : ""}`} />
+        </button>
+      </div>
+    </header>
+
+    {/* Mobile Menu Overlay */}
+    <div
+      id="mobile-menu"
+      className={`fixed inset-0 bg-[#F5F5F2]/97 backdrop-blur-xl z-40 flex flex-col justify-center items-center transition-all duration-500 ease-in-out md:hidden ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+    >
+      <nav className="flex flex-col items-center gap-10">
+        <a href="#warum" className="mobile-nav-link underline-link" onClick={() => setIsOpen(false)}>Warum</a>
+        <a href="#wie" className="mobile-nav-link underline-link" onClick={() => setIsOpen(false)}>Wie</a>
+        <a href="#was" className="mobile-nav-link underline-link" onClick={() => setIsOpen(false)}>Was</a>
+        <a href="#wen" className="mobile-nav-link underline-link" onClick={() => setIsOpen(false)}>Für wen</a>
+        <a href="#wer" className="mobile-nav-link underline-link" onClick={() => setIsOpen(false)}>Wer</a>
+        <a href="#jetzt" className="mobile-nav-link underline-link" onClick={() => setIsOpen(false)}>Was jetzt</a>
+      </nav>
+    </div>
+    </>
+  );
+}
+
+
+
+/* ----------  HERO  ---------- */
+function Hero() {
+  return (
+    <section id="top" className="relative min-h-[100svh] overflow-hidden flex flex-col justify-center">
+      {/* Radiant violet glow, large, low */}
+      <Aurora
+        variant="violet"
+        style={{
+          width: "110vw",
+          height: "100vw",
+          left: "-30vw",
+          bottom: "-55vw",
+          opacity: 0.9
+        }} />
+      
+      {/* Subtle peach glow, top-right */}
+      <Aurora
+        variant="peach"
+        className="aurora-mobile-hide"
+        style={{
+          width: "60vw",
+          height: "60vw",
+          right: "-15vw",
+          top: "-10vw",
+          opacity: 0.55
+        }} />
+      
+      {/* Lime accent glow, mid-right */}
+      <Aurora
+        variant="lime"
+        className="aurora-mobile-hide"
+        style={{
+          width: "50vw",
+          height: "50vw",
+          right: "-5vw",
+          top: "30vh",
+          opacity: 0.5
+        }} />
+      
+
+      {/* Headline area */}
+      <div className="relative z-10 pt-20 md:pt-24 pb-16 md:pb-20 px-6 md:px-14 max-w-[1500px] mx-auto w-full">
+        <h1 className="display h-huge hero-reveal">
+          KMU brauchen<br />
+          keine <span className="hl">Agentur</span>.<br />
+          Sie brauchen<br />
+          <span className="hl">Gefährten</span>.
+        </h1>
+      </div>
+
+    </section>);
+
+}
+
+/* ----------  WARUM  ---------- */
+function Warum() {
+  return (
+    <section id="warum" className="relative py-[10svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
+      <Aurora
+        variant="violet"
+        style={{
+          width: "90vw",
+          height: "80vw",
+          left: "-25vw",
+          top: "-20vw",
+          opacity: 0.7
+        }} />
+      <Aurora
+        variant="lime"
+        className="aurora-mobile-hide"
+        style={{
+          width: "70vw",
+          height: "60vw",
+          right: "-15vw",
+          bottom: "-15vw",
+          opacity: 0.55
+        }} />
+      <Aurora
+        variant="peach"
+        className="aurora-mobile-hide"
+        style={{
+          width: "55vw",
+          height: "55vw",
+          right: "10vw",
+          top: "20svh",
+          opacity: 0.45
+        }} />
+
+      <div className="max-w-[1500px] mx-auto w-full">
+        <div className="mono-label opacity-70 mb-7 md:mb-14 reveal relative z-10">01 — Warum</div>
+      </div>
+
+      <div className="grid grid-cols-12 gap-6 md:gap-12 max-w-[1500px] mx-auto w-full relative z-10 items-center">
+        <div className="col-span-12 md:col-span-5 md:pt-4 reveal delay-2 order-2 md:order-1">
+          <p className="body-text text-[18px] md:text-[22px]">
+            KMU verdienen richtig starkes Marketing und Kommunikation, die wirkt. Lange war das ein Privileg der Grossen. Heute nicht mehr, weil wir bei Kampagnons hybrid arbeiten: Menschen mit echtem Handwerk, beschleunigt und verstärkt mit KI.
+          </p>
+          <p className="body-text text-[18px] md:text-[22px] mt-6">
+            Das Ergebnis: Niveau einer grossen Agentur. Geschwindigkeit eines kleinen Teams. Preis, den ein KMU tatsächlich zahlen kann.
+          </p>
+        </div>
+        <div className="col-span-12 md:col-span-7 order-1 md:order-2">
+          <h2 className="display h-big reveal delay-1">
+            <span className="hl">Marketing</span> wie die Grossen.<br />
+            Zum Preis der <span className="hl">Kleinen</span>.
+          </h2>
+        </div>
+      </div>
+    </section>);}
+/* ----------  EMBED ANIMATION (logo circle merge)  ---------- */
+function EmbedAnimation() {
+  const sceneRef = React.useRef(null);
+  useEffect(() => {
+    const el = sceneRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          el.classList.add("merged");
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div className="relative z-10 mt-12 md:mt-16 max-w-[1500px] mx-auto w-full">
+      <div className="embed-scene" ref={sceneRef}>
+        {/* Lime Shape (KMU) - rendered first so it's behind */}
+        <div className="embed-shape embed-shape-lime" style={{ zIndex: 1 }}>
+          <svg viewBox="0 0 110 85" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
+            <path fill="#d1da3a" d="M76.16,46.4c-5.38,9.31-15.04,21.07-24.87,25.64-7.51,3.51-16.29-.48-24.02-3.81-18.64-8.16-30.73-14.95-13.73-34.26C27.33,19.18,52.65,1.86,71.97,14.05c10.92,7.52,10.77,21.1,4.26,32.2l-.08.15Z" />
+          </svg>
+        </div>
+        {/* Purple Shape (Kampagnons) - rendered second so it's on top */}
+        <div className="embed-shape embed-shape-purple" style={{ zIndex: 2 }}>
+          <svg viewBox="0 0 110 85" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
+            <path fill="#6f2da8" d="M42.3,55.87c3.49,6.04,9.77,13.68,16.15,16.65,4.88,2.28,10.58-.31,15.6-2.47,12.1-5.3,19.96-9.71,8.92-22.25-8.95-9.61-25.4-20.85-37.94-12.93-7.09,4.88-6.99,13.7-2.77,20.91l.05.1Z" />
+          </svg>
+        </div>
+
+        {/* Labels Container */}
+        <div className="embed-labels-container">
+           {/* Purple Label (Kampagnons - Bottom Right) */}
+           <div className="embed-label kp-label">
+             Kampagnons
+           </div>
+           
+           {/* Lime Label (KMU - Top Left) */}
+           <div className="embed-label kmu-label">
+             KMU
+           </div>
+        </div>
+      </div>
+      <div className="max-w-[720px] mx-auto text-center mt-6 md:mt-16 reveal">
+        <p className="body-text text-[18px] md:text-[22px]">
+          Wir arbeiten eingebettet. <span style={{ fontWeight: 600 }}>Embedded</span>, wie man heute sagt.
+        </p>
+        <p className="body-text text-[18px] md:text-[22px] mt-5">
+          Kein Bürostuhl. Keine Sozialabgaben. Keine Kündigungsfrist. Aber jemand, der dein Unternehmen kennt, mitdenkt und da ist — genau dann, wenn du ihn brauchst.
+        </p>
+      </div>
+    </div>
+  );
+}
+/* ----------  WIE  ---------- */
+function WasWirSind() {
+  return (
+    <section id="wie" className="relative py-[10svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
+      <Aurora
+        variant="mix"
+        style={{
+          width: "70vw",
+          height: "70vw",
+          right: "-20vw",
+          top: "10%",
+          opacity: 0.6
+        }} />
+      
+
+      <div className="max-w-[1500px] mx-auto w-full">
+        <div className="mono-label opacity-70 mb-7 md:mb-14 reveal relative z-10">02 — Wie</div>
+      </div>
+
+      <div className="grid grid-cols-12 gap-6 md:gap-12 max-w-[1500px] mx-auto w-full relative z-10 items-center">
+        <div className="col-span-12 md:col-span-6">
+          <h2 className="display h-mid reveal">
+            Ein <span className="hl">Externer</span>,<br />
+            der sich wie<br />
+            ein <span className="hl">Interner</span><br />
+            anfühlt.
+          </h2>
+        </div>
+        <div className="col-span-12 md:col-span-6 md:pt-4 reveal delay-1">
+          <p className="body-text text-[18px] md:text-[22px] max-w-[560px]">
+            Unser Name: die Verbindung von <span style={{ fontWeight: 600 }}>Kampagne</span> und <span style={{ fontWeight: 600 }}>Kompagnon</span>. Wir machen das eine. Wir sind das andere.
+          </p>
+          <p className="body-text text-[18px] md:text-[22px] mt-6 max-w-[560px]">
+            Ein Kompagnon ist einer, der am Tisch sitzt, der dein Unternehmen kennt. Einer, der sich einmischt, weil er sich kümmert. Keiner, der seine Rechnung schickt und dann wieder weg ist.
+          </p>
+          <p className="body-text text-[18px] md:text-[22px] mt-6 max-w-[560px]">Im Gegenteil: Ein Kompagnon ist einer, der bleibt. Ein echter Gefährte eben.
+          </p>
+        </div>
+      </div>
+
+      {/* --- Embedded animation --- */}
+      <EmbedAnimation />
+
+    </section>);
+
+}
+
+/* ----------  WAS  ---------- */
+function Wie() {
+  return (
+    <section id="was" className="relative py-[10svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
+      <Aurora
+        variant="lime"
+        style={{
+          width: "130vw",
+          height: "100vw",
+          left: "-15vw",
+          bottom: "-60vw",
+          opacity: 0.9
+        }} />
+      <Aurora
+        variant="violet"
+        style={{
+          width: "60vw",
+          height: "60vw",
+          left: "-10vw",
+          top: "-10vw",
+          opacity: 0.5
+        }} />
+      <Aurora
+        variant="peach"
+        style={{
+          width: "55vw",
+          height: "55vw",
+          right: "-12vw",
+          top: "45%",
+          opacity: 0.5
+        }} />
+
+      <div className="max-w-[1500px] mx-auto w-full">
+        <div className="mono-label opacity-70 mb-7 md:mb-14 reveal relative z-10 text-center">03 — Was</div>
+      </div>
+
+      <div className="relative z-10 max-w-[1500px] mx-auto w-full text-center">
+          <h2 className="display h-big reveal">
+            <span className="hl">Marketing</span>.<br />
+            <span className="hl">Kommunikation</span>.<br />
+            <span className="hl">Branding</span>.<br />
+            Und alles dazwischen.
+          </h2>
+          <p className="body-text text-[18px] md:text-[22px] mt-8 md:mt-16 mx-auto max-w-[720px] reveal delay-1">
+            KMU brauchen keine zehn Spezialisten. Sie brauchen zwei, die das Ganze sehen. Wir halten die Fäden zusammen. Spezialisten holen wir dazu, wenn es sie wirklich braucht. Nicht früher.
+          </p>
+      </div>
+    </section>);
+
+}
+
+/* ----------  FÜR WEN  ---------- */
+function FuerWen() {
+  return (
+    <section id="wen" className="relative py-[10svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
+      <Aurora
+        variant="peach"
+        style={{
+          width: "70vw",
+          height: "70vw",
+          right: "-20vw",
+          top: "-15vw",
+          opacity: 0.7
+        }} />
+      
+      <Aurora
+        variant="violet"
+        style={{
+          width: "60vw",
+          height: "60vw",
+          left: "-15vw",
+          bottom: "-25vw",
+          opacity: 0.55
+        }} />
+      
+
+      <div className="max-w-[1500px] mx-auto w-full">
+        <div className="mono-label opacity-70 mb-7 md:mb-14 reveal relative z-10">04 — Für wen</div>
+      </div>
+
+      <div className="grid grid-cols-12 gap-6 md:gap-12 max-w-[1500px] mx-auto w-full relative z-10 items-center">
+        <div className="col-span-12 md:col-span-7">
+          <h2 className="display h-mid reveal">
+            <span className="hl">Schreiner.</span>{" "}<span style={{whiteSpace:"nowrap"}}>Farbenfabrik.</span>{" "}<span className="hl">Software-Bude.</span>
+          </h2>
+        </div>
+
+        <div className="col-span-12 md:col-span-5 md:pt-4 reveal delay-1">
+          <p className="body-text text-[18px] md:text-[22px]">
+            Wir arbeiten für KMU von <span style={{ fontWeight: 600 }}>5 bis 250</span> Mitarbeitenden. Branche ziemlich egal. Reifegrad: irgendwo zwischen «wir haben nie was gemacht» und «wir machen schon was, aber da geht noch mehr».
+          </p>
+          <p className="body-text text-[18px] md:text-[22px] mt-6">
+            Was wir suchen: ungeschöpftes Potenzial. Und Leute, die spüren, dass mehr drin wäre.
+          </p>
+        </div>
+      </div>
+    </section>);
+
+}
+
+/* ----------  DIE GEFÄHRTEN  ---------- */
+function Gefaehrten() {
+  return (
+    <section id="wer" className="relative py-[10svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
+      <Aurora
+        variant="mix"
+        style={{
+          width: "90vw",
+          height: "70vw",
+          right: "-20vw",
+          top: "20%",
+          opacity: 0.6
+        }} />
+      
+
+      <div className="max-w-[1500px] mx-auto w-full">
+        <div className="mono-label opacity-70 mb-7 md:mb-14 reveal relative z-10">05 — Wer</div>
+      </div>
+
+      <div className="grid grid-cols-12 gap-6 md:gap-12 max-w-[1500px] mx-auto w-full relative z-10">
+        <div className="col-span-12 md:col-span-6 md:col-start-7">
+          <h2 className="display h-mid reveal">
+            <span className="hl">Zwei Gefährten</span><br />
+            an deiner Seite.
+          </h2>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-12 gap-6 md:gap-12 max-w-[1500px] mx-auto w-full mt-10 md:mt-24 relative z-10">
+        {/* Daniel */}
+        <div className="col-span-12 md:col-span-6 reveal">
+          <div className="wordmark text-[28px] md:text-[36px] leading-none">Daniel Wagner</div>
+          <div className="mono-label opacity-70 mt-3">Inhaber</div>
+          <p className="body-text text-[17px] md:text-[19px] mt-8 max-w-[520px]">
+            Macht seit 30 Jahren Marketing und Kommunikation. Notorisch unzufrieden mit dem Status Quo — und genau deshalb gut. Kennt die Fehler, die KMU machen, weil er die meisten selbst gesehen hat. Mehrfach. Und arbeitet ausschliesslich für Menschen, mit denen er auch ein Bier trinken würde.
+          </p>
+          <div className="mt-8 body-text text-[16px] md:text-[18px] space-y-2">
+            <a className="underline-link block" href="mailto:daniel@kampagnons.ch">daniel@kampagnons.ch</a>
+            <a className="underline-link block" href="tel:+41764371357">+41 76 437 13 57</a>
+          </div>
+        </div>
+
+        {/* Simon */}
+        <div className="col-span-12 md:col-span-6 reveal">
+          <div className="wordmark text-[28px] md:text-[36px] leading-none">Simon Gantner</div>
+          <div className="mono-label opacity-70 mt-3">Inhaber & Geschäftsführer</div>
+          <p className="body-text text-[17px] md:text-[19px] mt-8 max-w-[520px]">
+            Simon hat bei Daniel angefangen. Ganz unten. Assistent. 10 Jahre und einige Umwege später — darunter fast sechs Jahre Marketing und Kommunikation bei einer Versicherung — sitzt er wieder am Tisch. Diesmal als Mitinhaber. Manche nennen das Karriere. Wir nennen es: Freundschaft zwischen Senior und Junior.
+          </p>
+          <div className="mt-8 body-text text-[16px] md:text-[18px] space-y-2">
+            <a className="underline-link block" href="mailto:sg@kampagnons.ch">sg@kampagnons.ch</a>
+            <a className="underline-link block" href="tel:+41774384575">+41 77 438 45 75</a>
+          </div>
+        </div>
+      </div>
+    </section>);
+
+}
+
+/* ----------  CTA  ---------- */
+function CTA() {
+  return (
+    <section id="jetzt" className="relative py-[10svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
+      <Aurora
+        variant="lime"
+        style={{
+          width: "120vw",
+          height: "90vw",
+          left: "-10vw",
+          bottom: "-50vw",
+          opacity: 0.95
+        }} />
+      
+      <Aurora
+        variant="violet"
+        style={{
+          width: "70vw",
+          height: "70vw",
+          right: "-15vw",
+          top: "-15vw",
+          opacity: 0.7
+        }} />
+      
+
+      <div className="relative z-10 max-w-[1500px] mx-auto w-full">
+        <div className="mono-label opacity-70 mb-7 md:mb-14 reveal">06 — Was jetzt</div>
+        <h2 className="display h-big reveal" style={{ color: "var(--ink)" }}>
+          <span className="hl">Ruf an.</span><br />
+          Oder schreib.<br />
+          Wir antworten.
+        </h2>
+        <div className="mt-10 md:mt-20 flex flex-col gap-5 reveal">
+          <a
+            href="mailto:sg@kampagnons.ch"
+            className="wordmark text-[22px] md:text-[28px] underline-link">
+            sg@kampagnons.ch
+          </a>
+          <a
+            href="tel:+41774384575"
+            className="wordmark text-[22px] md:text-[28px] underline-link">
+            +41 77 438 45 75
+          </a>
+        </div>
+      </div>
+    </section>);
+
+}
+
+/* ----------  FOOTER  ---------- */
+function Footer() {
+  return (
+    <footer className="relative px-6 md:px-14 pt-14 md:pt-20 pb-10 overflow-hidden">
+      <div className="max-w-[1500px] mx-auto w-full">
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-10">
+          <a href="#top" className="flex items-center gap-3 md:gap-4 group">
+            <Signet size={36} />
+          </a>
+
+          <div className="mono-label opacity-70 leading-relaxed md:text-right">
+            Kampagnons GmbH<br />
+            Aemtlerstrasse 30, 8003 Zürich<br />
+            © {new Date().getFullYear()}
+          </div>
+        </div>
+
+        <div className="mt-14 border-t border-black/10 pt-6 mono-label opacity-50 flex justify-end">
+          <a href="#top" className="underline-link">↑ Zurück nach oben</a>
+        </div>
+      </div>
+    </footer>);
+
+}
+
+/* ----------  APP  ---------- */
+function App() {
+  useReveal();
+  return (
+    <main className="relative">
+      <Nav />
+      <Hero />
+      <Warum />
+      <WasWirSind />
+      <Wie />
+      <FuerWen />
+      <Gefaehrten />
+      <CTA />
+      <Footer />
+    </main>);
+
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>

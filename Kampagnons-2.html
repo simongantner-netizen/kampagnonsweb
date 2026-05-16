@@ -34,14 +34,17 @@
   html {
     scroll-behavior: smooth;
   }
-  html, body {
+  html {
     background: var(--paper);
+  }
+  html, body {
     color: var(--ink);
     font-family: "Calibre", "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
   body {
+    background: transparent;
     overflow-x: hidden;
   }
 
@@ -154,10 +157,10 @@
     transform-origin: center;
     filter: blur(60px);
   }
-  /* On mobile, reduce blur and hide secondary auroras to save GPU */
+  /* On mobile, keep page-bg blurs but reduce per-section ones */
   @media (max-width: 767px) {
-    .glow { filter: blur(40px); }
-    .aurora-mobile-hide { display: none !important; }
+    .glow:not(.page-bg) { filter: blur(40px); }
+    .page-bg { filter: blur(55px); }
   }
   /* More noticeable, fluid aurora drift */
   @keyframes aurora-drift-a {
@@ -190,9 +193,11 @@
   @media (prefers-reduced-motion: reduce) {
     .glow-a, .glow-b, .glow-c { animation: none !important; }
   }
-  /* Disable Aurora animations on mobile for smooth scrolling */
+  /* On mobile: keep page-bg animations, disable per-section ones */
   @media (max-width: 767px) {
-    .glow-a, .glow-b, .glow-c { animation: none !important; }
+    .glow:not(.page-bg).glow-a,
+    .glow:not(.page-bg).glow-b,
+    .glow:not(.page-bg).glow-c { animation: none !important; }
     /* Lazy-render offscreen sections */
     section[id] {
       content-visibility: auto;
@@ -450,6 +455,35 @@ function Aurora({ variant = "violet", drift, className = "", style = {} }) {
 
 }
 
+/* ----------  PAGE BACKGROUND (fixed, flows through all sections)  ---------- */
+function PageBackground() {
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }} aria-hidden="true">
+      {/* Violet — upper-left */}
+      <div className="glow glow-a page-bg" style={{
+        width: '140vw', height: '100vh',
+        left: '-20vw', top: '-20vh',
+        '--g-op': 0.78, opacity: 0.78,
+        background: 'radial-gradient(circle at 40% 40%, rgba(196,176,232,0.95) 0%, transparent 65%)'
+      }} />
+      {/* Peach/orange — right */}
+      <div className="glow glow-b page-bg" style={{
+        width: '100vw', height: '90vh',
+        right: '-20vw', top: '0',
+        '--g-op': 0.68, opacity: 0.68,
+        background: 'radial-gradient(circle at 55% 40%, rgba(247,210,180,0.95) 0%, transparent 65%)'
+      }} />
+      {/* Lime — bottom-center */}
+      <div className="glow glow-c page-bg" style={{
+        width: '100vw', height: '80vh',
+        left: '5vw', bottom: '-20vh',
+        '--g-op': 0.55, opacity: 0.55,
+        background: 'radial-gradient(circle at 50% 50%, rgba(212,232,74,0.85) 0%, transparent 60%)'
+      }} />
+    </div>
+  );
+}
+
 /* ----------  NAV (glassmorphism on scroll)  ---------- */
 function Nav() {
   const [scrolled, setScrolled] = React.useState(false);
@@ -521,40 +555,6 @@ function Nav() {
 function Hero() {
   return (
     <section id="top" className="relative min-h-[100svh] overflow-hidden flex flex-col justify-center">
-      {/* Radiant violet glow, large, low */}
-      <Aurora
-        variant="violet"
-        style={{
-          width: "110vw",
-          height: "100vw",
-          left: "-30vw",
-          bottom: "-55vw",
-          opacity: 0.9
-        }} />
-      
-      {/* Subtle peach glow, top-right */}
-      <Aurora
-        variant="peach"
-        className="aurora-mobile-hide"
-        style={{
-          width: "60vw",
-          height: "60vw",
-          right: "-15vw",
-          top: "-10vw",
-          opacity: 0.55
-        }} />
-      
-      {/* Lime accent glow, mid-right */}
-      <Aurora
-        variant="lime"
-        className="aurora-mobile-hide"
-        style={{
-          width: "50vw",
-          height: "50vw",
-          right: "-5vw",
-          top: "30vh",
-          opacity: 0.5
-        }} />
       
 
       {/* Headline area */}
@@ -574,36 +574,7 @@ function Hero() {
 /* ----------  WARUM  ---------- */
 function Warum() {
   return (
-    <section id="warum" className="relative py-[8svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
-      <Aurora
-        variant="violet"
-        style={{
-          width: "90vw",
-          height: "80vw",
-          left: "-25vw",
-          top: "-20vw",
-          opacity: 0.7
-        }} />
-      <Aurora
-        variant="lime"
-        className="aurora-mobile-hide"
-        style={{
-          width: "70vw",
-          height: "60vw",
-          right: "-15vw",
-          bottom: "-15vw",
-          opacity: 0.55
-        }} />
-      <Aurora
-        variant="peach"
-        className="aurora-mobile-hide"
-        style={{
-          width: "55vw",
-          height: "55vw",
-          right: "10vw",
-          top: "20svh",
-          opacity: 0.45
-        }} />
+    <section id="warum" className="relative py-[5svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
 
       <div className="max-w-[1500px] mx-auto w-full">
         <div className="mono-label opacity-70 mb-7 md:mb-14 reveal relative z-10">01 — Warum</div>
@@ -686,16 +657,7 @@ function EmbedAnimation() {
 /* ----------  WIE  ---------- */
 function WasWirSind() {
   return (
-    <section id="wie" className="relative py-[8svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
-      <Aurora
-        variant="mix"
-        style={{
-          width: "70vw",
-          height: "70vw",
-          right: "-20vw",
-          top: "10%",
-          opacity: 0.6
-        }} />
+    <section id="wie" className="relative py-[5svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
       
 
       <div className="max-w-[1500px] mx-auto w-full">
@@ -733,34 +695,7 @@ function WasWirSind() {
 /* ----------  WAS  ---------- */
 function Wie() {
   return (
-    <section id="was" className="relative py-[8svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
-      <Aurora
-        variant="lime"
-        style={{
-          width: "130vw",
-          height: "100vw",
-          left: "-15vw",
-          bottom: "-60vw",
-          opacity: 0.9
-        }} />
-      <Aurora
-        variant="violet"
-        style={{
-          width: "60vw",
-          height: "60vw",
-          left: "-10vw",
-          top: "-10vw",
-          opacity: 0.5
-        }} />
-      <Aurora
-        variant="peach"
-        style={{
-          width: "55vw",
-          height: "55vw",
-          right: "-12vw",
-          top: "45%",
-          opacity: 0.5
-        }} />
+    <section id="was" className="relative py-[5svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
 
       <div className="max-w-[1500px] mx-auto w-full">
         <div className="mono-label opacity-70 mb-7 md:mb-14 reveal relative z-10 text-center">03 — Was</div>
@@ -784,26 +719,7 @@ function Wie() {
 /* ----------  FÜR WEN  ---------- */
 function FuerWen() {
   return (
-    <section id="wen" className="relative py-[8svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
-      <Aurora
-        variant="peach"
-        style={{
-          width: "70vw",
-          height: "70vw",
-          right: "-20vw",
-          top: "-15vw",
-          opacity: 0.7
-        }} />
-      
-      <Aurora
-        variant="violet"
-        style={{
-          width: "60vw",
-          height: "60vw",
-          left: "-15vw",
-          bottom: "-25vw",
-          opacity: 0.55
-        }} />
+    <section id="wen" className="relative py-[5svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
       
 
       <div className="max-w-[1500px] mx-auto w-full">
@@ -833,16 +749,7 @@ function FuerWen() {
 /* ----------  DIE GEFÄHRTEN  ---------- */
 function Gefaehrten() {
   return (
-    <section id="wer" className="relative py-[8svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
-      <Aurora
-        variant="mix"
-        style={{
-          width: "90vw",
-          height: "70vw",
-          right: "-20vw",
-          top: "20%",
-          opacity: 0.6
-        }} />
+    <section id="wer" className="relative py-[5svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
       
 
       <div className="max-w-[1500px] mx-auto w-full">
@@ -892,26 +799,7 @@ function Gefaehrten() {
 /* ----------  CTA  ---------- */
 function CTA() {
   return (
-    <section id="jetzt" className="relative py-[8svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
-      <Aurora
-        variant="lime"
-        style={{
-          width: "120vw",
-          height: "90vw",
-          left: "-10vw",
-          bottom: "-50vw",
-          opacity: 0.95
-        }} />
-      
-      <Aurora
-        variant="violet"
-        style={{
-          width: "70vw",
-          height: "70vw",
-          right: "-15vw",
-          top: "-15vw",
-          opacity: 0.7
-        }} />
+    <section id="jetzt" className="relative py-[5svh] md:py-[22svh] px-6 md:px-14 overflow-hidden">
       
 
       <div className="relative z-10 max-w-[1500px] mx-auto w-full">
@@ -968,6 +856,7 @@ function App() {
   useReveal();
   return (
     <main className="relative">
+      <PageBackground />
       <Nav />
       <Hero />
       <Warum />

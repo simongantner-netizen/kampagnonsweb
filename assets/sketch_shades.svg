@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 378 83.33">
   <defs>
-    <filter id="signet-shadow" x="-25%" y="-30%" width="150%" height="170%" color-interpolation-filters="sRGB">
-      <feDropShadow dx="1" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.28"/>
-    </filter>
     <!-- Yellow: subtle highlight, toned down -->
     <radialGradient id="lime-fill" cx="60%" cy="22%" r="70%" gradientUnits="objectBoundingBox">
       <stop offset="0%"   stop-color="#dae53f"/>
@@ -19,7 +16,7 @@
   </defs>
   <g>
     <g id="Ebene_1">
-      <g filter="url(#signet-shadow)">
+      <g>
         <path fill="url(#lime-fill)" d="M79.15,45.66c-4.54,7.86-12.7,17.79-21,21.65-6.34,2.96-13.75-.4-20.28-3.22-15.73-6.89-25.95-12.62-11.59-28.92,11.64-12.49,33.02-27.11,49.34-16.82,9.22,6.35,9.09,17.81,3.6,27.19l-.07.12Z"/>
         <path fill="url(#purple-fill)" d="M54.09,51.48c3.38,5.85,9.46,13.25,15.63,16.12,4.72,2.21,10.24-.3,15.1-2.4,11.72-5.13,19.32-9.4,8.63-21.54-8.67-9.3-24.59-20.18-36.73-12.52-6.86,4.73-6.77,13.26-2.68,20.24l.05.09Z"/>
       </g>
